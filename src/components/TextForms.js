@@ -10,10 +10,13 @@ export default function TextForms(props) {
     const handleUpClick= ()=>{
         let newText=text.toUpperCase();
         setText(newText);
+        props.showAlert("Converted to upper Case","success");
     }
     const handleLoClick= ()=>{
         let newText=text.toLowerCase();
         setText(newText);
+        props.showAlert("Converted to Lower Case","success");
+
     }
     const handleEmClick = ()=> {
         let words= text.split(" ");
@@ -26,10 +29,13 @@ export default function TextForms(props) {
             }
             return "Email not Found";
         }
-        if(result()==="Email not Found")
-            alert("Email not Found");
-        else
-            alert(`Email is ${result()}`);
+        // if(result()==="Email not Found")
+        //     alert("Email not Found");
+        // else
+        //    { alert(`Email is ${result()}`);}
+        
+        props.showAlert(`Email Address: ${result()}`,result()==="Email not Found"?"warning":"success");
+        
     }
 
     const handleOnChange= (event)=>{
