@@ -49,10 +49,10 @@ function App() {
       <div className="container my-3">
       <Switch>
           <Route exact path="/about">
-            <About />
+            <About mode={mode}/>
           </Route>
           <Route exact path="/">
-          <TextForms showAlert={showAlert} textDetails="Enter Text to Analyze" mode={mode}/>
+          <TextForms showAlert={showAlert} textDetails="TextUtils - Word Counter | Character counter" mode={mode}/>
           </Route>
         </Switch>
       </div>

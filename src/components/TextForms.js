@@ -29,15 +29,22 @@ export default function TextForms(props) {
             }
             return "Email not Found";
         }
-        // if(result()==="Email not Found")
-        //     alert("Email not Found");
-        // else
-        //    { alert(`Email is ${result()}`);}
-        
         props.showAlert(`Email Address: ${result()}`,result()==="Email not Found"?"warning":"success");
         
     }
-
+    const handleCopyClick = ()=>{
+        let text=document.getElementById("myBox");
+        text.select();
+        text.setSelectionRange(0, 9999);
+        navigator.clipboard.writeText(text.value);
+        document.getSelection().removeAllRanges();
+        props.showAlert("Copied to Clipboard","success")
+    }
+    const handleExtraClick = ()=>{
+        let ntext=text.split(/[ ]+/);
+        setText(ntext.join(" "));
+        props.showAlert("Extra Spaces Remove","success");
+    }
     const handleOnChange= (event)=>{
         setText(event.target.value);
     }
@@ -52,18 +59,21 @@ export default function TextForms(props) {
                 <textarea className="form-control" value={text} style={{backgroundColor: props.mode==="dark"? '#042743':"white", color: props.mode==="dark"? 'white':"black"}} onChange={handleOnChange} id="myBox" rows="8"></textarea>
             </div>
 
-            <button className="btn btn-primary mx-2" onClick={handleUpClick}>Convert To Uppercase</button>
-            <button className="btn btn-primary mx-2" onClick={handleLoClick}>Convert To LowerCase</button>
-            <button className="btn btn-primary mx-2" onClick={handleEmClick}>Find Email</button>
+            <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleUpClick}>Convert To Uppercase</button>
+            <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleLoClick}>Convert To LowerCase</button>
+            <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleEmClick}>Find Email</button>
+            <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleCopyClick}>Copy Text</button>
+            <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleExtraClick}>Clear Extra Spaces</button>
+
 
         </div>
 
         <div className="container my3" style={{color: props.mode==="dark"? 'white':"black"}}>
             <h1>Your Text Summary</h1>
-            <p>{text.split(" ").length} words, {text.length} characters.</p>
-            <p>It can be read in {0.008*text.split(" ").length} minutes.</p>
+            <p>{text.split(" ").filter((elements)=>{ return elements.length!==0 }).length} words, {text.length} characters.</p>
+            <p>It can be read in {0.008*text.split(" ").filter((elements)=>{ return elements.length!==0 }).length} minutes.</p>
             <h2>Preview</h2>
-            <p>{ text.length===0?"Enter text to see.": text }</p>
+            <p>{ text.length===0?"Enter text to see the preview.": text }</p>
         </div>
         </>
     )
